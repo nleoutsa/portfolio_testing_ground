@@ -1,0 +1,1068 @@
+/*
+    HTML5 ✰ Boilerplate
+
+    style.css contains a reset, font normalization and some base styles.
+
+    credit is left where credit is due.
+    much inspiration was taken from these projects:
+        yui.yahooapis.com/2.8.1/build/base/base.css
+        camendesign.com/design/
+        praegnanz.de/weblog/htmlcssjs-kickstart
+*/
+
+/*
+    html5doctor.com Reset Stylesheet (Eric Meyer's Reset Reloaded + HTML5 baseline)
+    v1.6.1 2010-09-17 | Authors: Eric Meyer & Richard Clark
+    html5doctor.com/html-5-reset-stylesheet/
+*/
+
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+    margin:0;
+    padding:0;
+    border:0;
+    font-size:100%;
+    font: inherit;
+    vertical-align:baseline;
+}
+
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+        display:block;
+}
+
+blockquote, q { quotes:none; }
+
+blockquote:before, blockquote:after,
+q:before, q:after { content:''; content:none; }
+
+ins { background-color:#ff9; color:#000; text-decoration:none; }
+
+mark { background-color:#ff9; color:#000; font-style:italic; font-weight:bold; }
+
+del { text-decoration: line-through; }
+
+abbr[title], dfn[title] { border-bottom:1px dotted; cursor:help; }
+
+table { border-collapse:collapse; border-spacing:0; }
+
+hr { display:block; height:1px; border:0; border-top:1px solid #ccc; margin:1em 0; padding:0; }
+
+input, select { vertical-align:middle; }
+
+/* END RESET CSS */
+
+/* font normalization inspired by  from the YUI Library's fonts.css: developer.yahoo.com/yui/ */
+body { font:13px/1.231 sans-serif; font-size:small; } /* hack retained to preserve specificity */
+select, input, textarea, button { font:99% sans-serif; }
+
+/* normalize monospace sizing
+ * en.wikipedia.org/wiki/MediaWiki_talk:Common.css/Archive_11#Teletype_style_fix_for_Chrome */
+pre, code, kbd, samp { font-family: monospace, sans-serif; }
+
+/*
+ * minimal base styles
+ */
+
+body, select, input, textarea {
+    /* #444 looks better than black: twitter.com/H_FJ/statuses/11800719859 */
+    color: #444;
+    /* set your base font here, to apply evenly */
+    /* font-family: Georgia, serif;  */
+}
+
+/* headers (h1,h2,etc) have no default font-size or margin. define those yourself. */
+h1,h2,h3,h4,h5,h6 { font-weight: bold; }
+
+/* always force a scrollbar in non-IE: */
+html { overflow-y: scroll; }
+
+/* accessible focus treatment: people.opera.com/patrickl/experiments/keyboard/test */
+a:hover, a:active { outline: none; }
+
+a, a:active, a:visited { color: #607890; }
+a:hover { color: #036; }
+
+ul, ol { margin-left: 2em; }
+ol { list-style-type: decimal; }
+
+/* remove margins for navigation lists */
+nav ul, nav li { margin: 0; list-style:none; list-style-image: none; }
+
+small { font-size: 85%; }
+strong, th { font-weight: bold; }
+
+td { vertical-align: top; }
+
+/* set sub, sup without affecting line-height: gist.github.com/413930 */
+sub, sup { font-size: 75%; line-height: 0; position: relative; }
+sup { top: -0.5em; }
+sub { bottom: -0.25em; }
+
+pre {
+    /* www.pathf.com/blogs/2008/05/formatting-quoted-code-in-blog-posts-css21-white-space-pre-wrap/ */
+    white-space: pre; white-space: pre-wrap; white-space: pre-line; word-wrap: break-word;
+    padding: 15px;
+}
+
+textarea { overflow: auto; } /* www.sitepoint.com/blogs/2010/08/20/ie-remove-textarea-scrollbars/ */
+
+.ie6 legend, .ie7 legend { margin-left: -7px; } /* thnx ivannikolic! */
+
+/* align checkboxes, radios, text inputs with their label by: Thierry Koblentz tjkdesign.com/ez-css/css/base.css  */
+input[type="radio"] { vertical-align: text-bottom; }
+input[type="checkbox"] { vertical-align: bottom; }
+.ie7 input[type="checkbox"] { vertical-align: baseline; }
+.ie6 input { vertical-align: text-bottom; }
+
+/* hand cursor on clickable input elements */
+label, input[type="button"], input[type="submit"], input[type="image"], button { cursor: pointer; }
+
+/* webkit browsers add a 2px margin outside the chrome of form elements */
+button, input, select, textarea { margin: 0; }
+
+/* colors for form validity */
+input:valid, textarea:valid   {  }
+input:invalid, textarea:invalid {
+            border-radius: 1px; -moz-box-shadow: 0px 0px 5px red; -webkit-box-shadow: 0px 0px 5px red; box-shadow: 0px 0px 5px red;
+}
+.no-boxshadow input:invalid, .no-boxshadow textarea:invalid { background-color: #f0dddd; }
+
+/* These selection declarations have to be separate.
+     No text-shadow: twitter.com/miketaylr/status/12228805301
+     Also: hot pink. */
+::-moz-selection{ background: #FF5E99; color:#fff; text-shadow: none; }
+::selection { background:#FF5E99; color:#fff; text-shadow: none; }
+
+/*  j.mp/webkit-tap-highlight-color */
+a:link { -webkit-tap-highlight-color: #FF5E99; }
+
+/* make buttons play nice in IE:
+     www.viget.com/inspire/styling-the-button-element-in-internet-explorer/ */
+button {  width: auto; overflow: visible; }
+
+/* bicubic resizing for non-native sized IMG:
+     code.flickr.com/blog/2008/11/12/on-ui-quality-the-little-things-client-side-image-resizing/ */
+.ie7 img { -ms-interpolation-mode: bicubic; }
+
+/*
+*******************************************
+              END RESET
+*******************************************
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+*******************************************
+              CUSTOM SYTLES
+*******************************************
+*/
+
+body {
+    font-family: "courier new", Courier, monospace;
+    font-weight: 100;
+    height: 100%;
+}
+
+h1,
+h2 {
+    position: absolute;
+    color: transparent;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+
+    z-index: -99999;
+}
+
+#site_container {
+    width: 100%;
+    height: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
+*******************************************
+              MENU MOBILE
+*******************************************
+*/
+
+#menu_container {
+    width: 100%;
+    position: fixed;
+    z-index: 999;
+    box-shadow: 0 3px 3px rgba(0,0,0,0.5);
+
+    background-color: rgba(255,255,255,0.95);
+    color: #333;
+}
+
+#menu {
+    display: block;
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+
+    list-style: none;
+    margin: 0;
+
+    box-shadow: inset 3px 3px 3px rgba(0,0,0,1);
+
+    padding-top: 1em;
+    padding-left: 1em;
+    margin-left: 2em;
+
+    background-color: #222;
+    color: #fff;
+
+    left: 100%;
+
+    -webkit-transition: -webkit-transform 0.5s ease;
+       -moz-transition: -moz-transform 0.5s ease;
+         -o-transition: -o-transform 0.5s ease;
+            transition: transform 0.5s ease;
+}
+#menu li p {
+    font-size: 1.3em;
+    margin-top: 0.6em;
+}
+
+#site_title {
+    text-align: center;
+    line-height: 53px;
+    font-size: 1.6em;
+    height: 53px;
+}
+#site_title #menu_toggle {
+    float: right;
+    width: 1em;
+    height: 1em;
+    line-height: 1em;
+    margin-right: 0.5em;
+    margin-top: 0.6em;
+    padding: 0.3em;
+    padding-bottom: 0.1em;
+    /*border: 1px solid #333;*/
+    border-radius: 8px;
+
+    -webkit-transition: all ease 0.5s;
+    -moz-transition: all ease 0.5s;
+    -o-transition: all ease 0.5s;
+    transition: all ease 0.5s;
+}
+#site_title #menu_toggle:active {
+    background: #333;
+    color: #fff;
+}
+#site_title a:link,
+#site_title a:visited {
+    text-decoration: none;
+    color: #333;
+    cursor: pointer;
+}
+.name_title {
+    display: none;
+}
+#job_title {
+    font-size: 0.8em;
+    padding-top: 1em;
+}
+#designer_title {
+    font-size: 0.8em;
+    display: none;
+}
+
+#painting_categories,
+#art_categories {
+    max-height: 0;
+    overflow: hidden;
+
+    -webkit-transition: max-height ease 0.6s;
+    -moz-transition: max-height ease 0.6s;
+    transition: max-height ease 0.6s;
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
+*******************************************
+              GALLERY
+*******************************************
+*/
+
+#gallery_container {
+    display: table-row;
+    height: 100vh;
+    width: 100%;
+    background: #fff;
+
+    position: absolute;
+    left: 0%;
+
+    -webkit-transition: -webkit-transform 0.5s ease;
+       -moz-transition: -moz-transform 0.5s ease;
+         -o-transition: -o-transform 0.5s ease;
+            transition: transform 0.5s ease;
+}
+#gallery {
+    width: 100%;
+    height: 100%;
+    padding-top: 1.25%;
+    margin-top: 53px;
+}
+
+.tag,
+.toggle,
+.about {
+    cursor: pointer;
+}
+.toggle span:last-child {
+    font-weight: 900;
+}
+
+.frame {
+    /*display: inline-block;*/
+
+    background-color: #001;
+    width: 47.5%;
+    position: absolute;
+    margin: 1.25%;
+
+    box-shadow: -3px 3px 3px rgba(0,0,0,0.4);
+
+}
+
+/* make frames have square aspect ratio */
+.aspect_force {
+    padding-top: 100%;
+}
+
+.art_piece {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+/*
+*******************************************
+              info sections
+*******************************************
+*/
+
+.info {
+    position: relative;
+
+    color: #222;
+    padding: 1em;
+
+    display: inline-block;
+    width: 90%;
+    margin: 1.25%;
+    border-top: 1px solid #222;
+    border-right: 1px solid #222;
+}
+.info p {
+    margin-bottom: 1em;
+}
+
+.info p:first-child {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.4em;
+    margin-bottom: 0.6em;
+}
+
+.link_p,
+.link_github {
+    float: right;
+    margin-right: 20px;
+
+}
+
+.info p a:link,
+.info p a:visited {
+    width: 100px;
+    display: inline-block;
+    border: 1px solid #4ac;
+    border-radius: 5px;
+    padding: 1em 0.5em;
+    text-align: center;
+    float: left;
+    color: #4ac;
+    line-height: 1em;
+    text-decoration: none;
+    margin-bottom: 1em;
+
+    -webkit-transition: all ease 0.6s;
+    -moz-transition: all ease 0.6s;
+    -o-transition: all ease 0.6s;
+    transition: all ease 0.6s;
+}
+.info p a:active {
+    background-color: #4ac;
+    color: #fff;
+    font-weight: bold;
+}
+
+/* info section language data */
+.language_div {
+    font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+
+    margin-top: 0.5em;
+    line-height: 1.5em;
+    height: 1.5em;
+    display: block;
+    white-space: nowrap;
+}
+.language_data {
+    position: absolute;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+
+    color: #333;
+    box-shadow:  -3px 3px 3px rgba(0,0,0,0.5);
+
+    padding-right: 5%;
+    padding-left: 1%;
+    display: inline-block;
+}
+
+
+
+
+
+
+
+
+
+
+/*
+*******************************************
+              DESCRIPTION SECTIONS
+*******************************************
+*/
+
+#about_me,
+#skills,
+#contact {
+    width: 100%;
+    height: 100vh;
+    max-height: 0;
+    overflow: hidden;
+}
+
+/* language specific styles */
+.JavaScript,
+.CSS,
+.HTML,
+.CoffeeScript,
+.Ruby {
+    display: inline-block;
+    width: 70px;
+    text-align: right;
+    margin-right: 10px;
+    opacity: 1;
+    color: #333;
+}
+
+/* skills section */
+#languages_breakdown_container {
+    display: block;
+
+    position: relative;
+    top: 30%;
+    transform: translateY(-50%);
+}
+.skill_div {
+    font-size: 2em;
+    font-weight: bolder;
+    padding-right: 1.2em;
+    white-space: nowrap;
+
+    margin-top: 1em;
+    margin-left: 1em;
+
+    height: 1.5em;
+    line-height: 1.5em;
+    box-shadow: -7px 7px 3px rgba(0,0,0,0.7);
+}
+.skill_data {
+    color: #333;
+    padding-left: 70%;
+    display: inline-block;
+}
+
+
+
+
+
+
+.animate-transforms {
+    -webkit-transition: -webkit-transform 0.6s ease;
+       -moz-transition: -moz-transform 0.6s ease;
+         -o-transition: -o-transform 0.6s ease;
+            transition: transform 0.6s ease;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+*******************************************
+              MEDIA SYTLES
+*******************************************
+*/
+
+
+@media all and (min-width: 600px) {
+
+    .art_piece {
+        -webkit-transition: opacity ease 0.5s;
+        -moz-transition: opacity ease 0.5s;
+        -o-transition: opacity ease 0.5s;
+        transition: opacity ease 0.5s;
+    }
+    .frame {
+        width: 30.5%;
+        /*transform: translateZ(0);*/
+
+        -webkit-transition: -webkit-transform 0.5s ease;
+           -moz-transition: -moz-transform 0.5s ease;
+             -o-transition: -o-transform 0.5s ease;
+                transition: transform 0.5s ease;
+    }
+    .frame[data-zoom='false']:hover {
+        transform: scale(1.05);
+    }
+
+    .info {
+        width: 93%;
+        max-height: 0;
+        overflow: hidden;
+/*
+        -webkit-transition: max-height ease 0.5s;
+        -moz-transition: max-height ease 0.5s;
+        transition: max-height ease 0.5s;
+*/
+        /*-webkit-transition: -webkit-transform 0.5s ease;
+           -moz-transition: -moz-transform 0.5s ease;
+             -o-transition: -o-transform 0.5s ease;
+                transition: transform 0.5s ease;*/
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media all and (min-width: 900px) {
+
+
+
+
+
+
+
+
+
+
+/*
+*******************************************
+            MENU DESKTOP
+*******************************************
+*/
+
+    #menu_container {
+        display: table-cell;
+        width: 300px;
+        height: 100vh;
+        vertical-align: top;
+        position: static;
+
+        background-color: #222;
+        background-image: -webkit-linear-gradient(left, #151515, #222);
+        background-image:    -moz-linear-gradient(left, #151515, #222);
+        background-image:      -o-linear-gradient(left, #151515, #222);
+        background-image:         linear-gradient(to right, #151515, #222);
+
+        color: #fff;
+    }
+
+    #menu {
+        left: 0%;
+        width: 329px;
+        background: transparent;
+
+        height: 0;
+
+        display: block;
+        list-style: none;
+        margin: 0;
+
+        padding-top: 2em;
+        padding-left: 1em;
+
+        max-height: 100%;
+        overflow: visible;
+    }
+
+    #menu li {
+        padding-left: 2em;
+        margin-top: 0.3em;
+        line-height: 2em;
+        list-style: none;
+
+        -webkit-transition: background ease 0.6s;
+        -moz-transition: background ease 0.6s;
+        -o-transition: background ease 0.6s;
+        transition: background ease 0.6s;
+    }
+    #menu li p {
+        padding-left: 2em;
+        margin-top: 0.3em;
+        line-height: 2em;
+        list-style: none;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+
+        -webkit-transition: background ease 0.6s;
+        -moz-transition: background ease 0.6s;
+        -o-transition: background ease 0.6s;
+        transition: background ease 0.6s;
+    }
+    #menu li p[data-selected='true'] {
+        background-color: #fff;
+        color: #222;
+    }
+    #art_categories,
+    #painting_categories {
+        margin: 0;
+    }
+    #art_categories li p,
+    #painting_categories li p {
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+    }
+
+    #menu li p:hover {
+        background: #fff;
+        color: #222;
+        background-image: -webkit-linear-gradient(left, #fff, #222);
+        background-image:    -moz-linear-gradient(left, #fff, #222);
+        background-image:      -o-linear-gradient(left, #fff, #222);
+        background-image:         linear-gradient(to right, #fff, #222);
+    }
+
+    #site_title {
+        text-align: center;
+        height: auto;
+        line-height: 1em;
+        padding: 1em;
+        width: 300px;
+
+        background-color: #222;
+        background-image: -webkit-linear-gradient(bottom left, #151515, #222);
+        background-image:    -moz-linear-gradient(bottom left, #151515, #222);
+        background-image:      -o-linear-gradient(bottom left, #151515, #222);
+        background-image:         linear-gradient(to top right, #151515, #222);
+
+        color: #fff;
+
+        border-bottom: 1px solid white;
+
+    }
+    #site_title .middle_names {
+        overflow: hidden;
+        max-height: 0;
+        -webkit-transition: max-height ease 0.5s;
+        -moz-transition: max-height ease 0.5s;
+        transition: max-height ease 0.5s;
+    }
+    #site_title a:hover .middle_names {
+        max-height: 1em;
+        color: #fff;
+    }
+    #site_title span {
+        display: block;
+    }
+    #site_title a:link,
+    #site_title a:visited,
+    #site_title a:hover {
+        color: #fff;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    #site_title #menu_toggle {
+        display: none;
+    }
+
+    span#designer_title,
+    span#job_title {
+
+        display: inline-block;
+    }
+    span#initials_title {
+        display: none;
+    }
+
+
+
+
+
+
+
+
+
+
+/*
+*******************************************
+            GALLERY DESKTOP
+*******************************************
+*/
+
+    #gallery_container {
+        display: table-cell;
+        width: 100%;
+
+        position: static;
+        left: 0%;
+
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+
+    }
+    #gallery {
+
+        max-height: 100%;
+        margin-left: 1.25%;
+        margin-top: 0;
+        -webkit-transition: max-height ease 0.5s, height ease 0.5s;
+        -moz-transition: max-height ease 0.5s, height ease 0.5s;
+        transition: max-height ease 0.5s, height ease 0.5s;
+    }
+
+    .frame {
+        width: 22.25%;
+    }
+    .frame[data-zoom='false']:hover {
+        box-shadow: -4px 4px 3px rgba(0,0,0,0.7);
+        /*transform: scale(1.1);*/
+    }
+
+    /* info sections DESKTOP */
+    .info p a:hover {
+        background-color: #4ac;
+        color: #fff;
+        font-weight: bold;
+    }
+
+
+
+
+
+
+
+
+
+
+    /*
+    *******************************************
+                DESCRIPTION SECTIONS
+    *******************************************
+    */
+
+    #about_me,
+    #skills,
+    #contact {
+        width: 100%;
+        height: 100vh;
+        max-height: 0;
+        overflow: hidden;
+
+        -webkit-transition: max-height ease 0.5s, height ease 0.5s;
+        -moz-transition: max-height ease 0.5s, height ease 0.5s;
+        transition: max-height ease 0.5s, height ease 0.5s;
+    }
+
+    h4 {
+        padding-left: 1em;
+        padding-right: 10%;
+        padding-top: 1em;
+        font-size: 2em;
+        color: #fff;
+    }
+    h4 small {
+        font-weight: normal;
+        font-size: 0.7em;
+    }
+
+
+
+
+
+
+
+
+
+
+    /*
+    *******************************************
+                SKILLS SECTION
+    *******************************************
+    */
+
+    #languages_breakdown_container {
+        display: block;
+
+        font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+
+        /* position vertically */
+        position: relative;
+        top: 30%;
+        transform: translateY(-50%);
+
+        height: 100%;
+        width: 110%;
+
+        background-color: #222;
+        background-image: -webkit-linear-gradient(left, #222, #111);
+        background-image:    -moz-linear-gradient(left, #222, #111);
+        background-image:      -o-linear-gradient(left, #222, #111);
+        background-image:         linear-gradient(to right, #222, #111);
+
+        -webkit-transform: rotate(5deg);
+        -moz-transform: rotate(5deg);
+        -o-transform: rotate(5deg);
+        transform: rotate(5deg);
+
+
+        /* get rid of jagged edges in chrome */
+        -webkit-backface-visibility: hidden;
+    }
+    #languages_breakdown {
+        display: block;
+    }
+    .skill_div {
+        text-align: right;
+        padding-right: 1em;
+
+        height: 2em;
+        line-height: 2em;
+
+        -webkit-transition: all ease 0.6s, width ease 1.2s;
+        -moz-transition: all ease 0.6s, width ease 1.2s;
+        -o-transition: all ease 0.6s, width ease 1.2s;
+        transition: all ease 0.6s, width ease 1.2s;
+
+        /* get rid of jagged edges in chrome */
+        -webkit-backface-visibility: hidden;
+    }
+    .skill_data {
+        color: #fff;
+        padding-left: 2em;
+        position: absolute;
+        display: inline-block;
+
+        -webkit-transition: all ease 1.6s;
+        -moz-transition: all ease 1.6s;
+        -o-transition: all ease 1.6s;
+        transition: all ease 1.6s;
+    }
+
+    .JavaScript,
+    .CSS,
+    .HTML,
+    .CoffeeScript,
+    .Ruby {
+        width: 100px;
+        opacity: 0;
+        -webkit-transition: all ease 1.6s;
+        -moz-transition: all ease 1.6s;
+        -o-transition: all ease 1.6s;
+        transition: all ease 1.6s;
+    }
+
+
+
+
+
+
+
+
+
+
+    /*
+    *******************************************
+                CONTACT SECTION
+    *******************************************
+    */
+
+    .contact_background {
+        /* position vertically */
+
+        background-color: #222;
+        background-image: -webkit-linear-gradient(left, #222, #111);
+        background-image:    -moz-linear-gradient(left, #222, #111);
+        background-image:      -o-linear-gradient(left, #222, #111);
+        background-image:         linear-gradient(to right, #222, #111);
+
+        border-left: 200px solid transparent;
+        border-bottom: 150px solid red;
+        border-top: 10vh solid transparent;
+        border-right: 200px solid transparent;
+
+    }
+
+
+    /*
+    *******************************************
+                ABOUT_ME SECTION
+    *******************************************
+    */
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
