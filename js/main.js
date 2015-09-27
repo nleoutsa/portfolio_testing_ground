@@ -6,10 +6,6 @@ var stats = document.getElementById('stats');
 var gallery = document.getElementById('gallery');
 var contact_container = document.getElementById('contact');
 
-var zoomed_size = '96.5%';
-
-
-var hidden_frames = [];
 var current_category = [];
 var zoomed_frame = gallery.childNodes[0];
 var info_section;
@@ -80,48 +76,15 @@ setVendorPrefixForTransform(menu, 'translateX(0%)')
 //////////////////////////////////////////
 
 window.onresize=function(){
-    for (var i = 0; i < art_pieces.length; i++) {
-        var frame = art_pieces[i].parentNode;
-        var row;
 
-        if (getWindowWidth().x > 900) {
-            row = Math.floor(i / 4);
-
-            if (i % 4 == 0)
-                setVendorPrefixForTransform(frame, 'translate(' + 0 + '%, ' + row * 105 + '%)')
-            else if (i % 4 == 1)
-                setVendorPrefixForTransform(frame, 'translate(' + 110 + '%, ' + row * 105 + '%)')
-            else if (i % 4 == 2)
-                setVendorPrefixForTransform(frame, 'translate(' + 220 + '%, ' + row * 105 + '%)')
-            else if (i % 4 == 3)
-                setVendorPrefixForTransform(frame, 'translate(' + 330 + '%, ' + row * 105 + '%)')
-        }
-        else if (getWindowWidth().x > 600) {
-            row = Math.floor(i / 3);
-
-            if (i % 3 == 0)
-                setVendorPrefixForTransform(frame, 'translate(' + 0 + '%, ' + row * 105 + '%)')
-            else if (i % 3 == 1)
-                setVendorPrefixForTransform(frame, 'translate(' + 110 + '%, ' + row * 105 + '%)')
-            else if (i % 3 == 2)
-                setVendorPrefixForTransform(frame, 'translate(' + 220 + '%, ' + row * 105 + '%)')
-
-            menu_visible = false;
-        }
-        else {
-            row = Math.floor(i / 2);
-
-            if (i % 2 == 0)
-                setVendorPrefixForTransform(frame, 'translate(' + 0 + '%, ' + row * 105 + '%)')
-            else if (i % 2 == 1)
-                setVendorPrefixForTransform(frame, 'translate(' + 105 + '%, ' + row * 105 + '%)')
-
-            menu_visible = false;
-        }
-    }
-
+    // for (var i = 0; i < art_pieces.length; i++) {
+    //     var frame = art_pieces[i].parentNode;
+    //     organizeFrames(frame, i, 1);
+    // }
     setVendorPrefixForTransform(gallery.parentNode, 'translateX(0%)')
     setVendorPrefixForTransform(menu, 'translateX(0%)')
+    menu_visible = false;
+
 };
 
 // add event listeners to art_pieces
@@ -129,43 +92,12 @@ for (var i = 0; i < art_pieces.length; i++) {
     art_pieces[i].addEventListener('click', function(event) {click_artpiece(event);}, false);
     var frame = art_pieces[i].parentNode;
 
-    var row;
+    setVendorPrefixForTransformOrigin(frame, '0 0');
+    organizeFrames(frame, i, 1);
 
-    if (getWindowWidth().x > 900) {
-        row = Math.floor(i / 4);
-
-        if (i % 4 == 0)
-            setVendorPrefixForTransform(frame, 'translate(' + 0 + '%, ' + row * 105 + '%)')
-        else if (i % 4 == 1)
-            setVendorPrefixForTransform(frame, 'translate(' + 110 + '%, ' + row * 105 + '%)')
-        else if (i % 4 == 2)
-            setVendorPrefixForTransform(frame, 'translate(' + 220 + '%, ' + row * 105 + '%)')
-        else if (i % 4 == 3)
-            setVendorPrefixForTransform(frame, 'translate(' + 330 + '%, ' + row * 105 + '%)')
-
+    if (getWindowWidth().x > 600) {
         art_pieces[i].addEventListener('mouseover', function(event) {mouseover_artpiece(event);}, false);
         art_pieces[i].addEventListener('mouseout', function(event) {mouseout_artpiece(event);}, false);
-    }
-    else if (getWindowWidth().x > 600) {
-        row = Math.floor(i / 3);
-
-        if (i % 3 == 0)
-            setVendorPrefixForTransform(frame, 'translate(' + 0 + '%, ' + row * 105 + '%)')
-        else if (i % 3 == 1)
-            setVendorPrefixForTransform(frame, 'translate(' + 110 + '%, ' + row * 105 + '%)')
-        else if (i % 3 == 2)
-            setVendorPrefixForTransform(frame, 'translate(' + 220 + '%, ' + row * 105 + '%)')
-
-        art_pieces[i].addEventListener('mouseover', function(event) {mouseover_artpiece(event);}, false);
-        art_pieces[i].addEventListener('mouseout', function(event) {mouseout_artpiece(event);}, false);
-    }
-    else {
-        row = Math.floor(i / 2);
-
-        if (i % 2 == 0)
-            setVendorPrefixForTransform(frame, 'translate(' + 0 + '%, ' + row * 105 + '%)')
-        else if (i % 2 == 1)
-            setVendorPrefixForTransform(frame, 'translate(' + 105 + '%, ' + row * 105 + '%)')
     }
 }
 
@@ -228,12 +160,34 @@ gallery.parentNode.addEventListener('click', function() {
     }
 });
 
+gallery.addEventListener('mouseover', function(event) {mouseover_gallery(event);}, false);
+gallery.addEventListener('mouseout', function(event) {mouseout_gallery(event);}, false);
 
 
 
 
 
 
+function mouseover_gallery (event) {
+    for (var i = 0; i < current_category.length; i++) {
+        if (current_category[i] == zoomed_frame) {
+        }
+        else if (    current_category[i].nodeType == 1
+                 &&  current_category[i] != event.target.parentNode
+                 &&  current_category[i].className != 'info') {
+            current_category[i].childNodes[1].style.opacity = '0.35';
+        }
+        else {
+            current_category[i].childNodes[1].style.opacity = '';
+        }
+    }
+}
+
+function mouseout_gallery (event) {
+    for (var i = 0; i < current_category.length; i++) {
+        current_category[i].childNodes[1].style.opacity = '';
+    }
+}
 
 
 
@@ -404,80 +358,123 @@ function createInfoSection(node) {
 }
 
 
-function zoom(node) {
+function organizeFrames (frame, frame_index, scale_factor, y_val) {
+    var row;
 
-    var ratio = node.dataset.ratio;
+    if (getWindowWidth().x > 900) {
+        row = Math.floor(frame_index / 4);
+        var y_value = y_val ? (y_val + 'px') : ((row * 110) + '%');
 
-    if (getWindowWidth().x > 600)
-        node.childNodes[1].style.background = 'url(' + node.dataset.large_pic + ')';
-    else
-        node.childNodes[1].style.background = 'url(' + node.dataset.small_pic + ')';
+        if (frame_index % 4 == 0)
+            setVendorPrefixForTransform(frame, 'translate(' + 0 + '%, ' + y_value + ') scale(' + scale_factor + ')')
+        else if (frame_index % 4 == 1)
+            setVendorPrefixForTransform(frame, 'translate(' + 110 + '%, ' + y_value + ') scale(' + scale_factor + ')')
+        else if (frame_index % 4 == 2)
+            setVendorPrefixForTransform(frame, 'translate(' + 220 + '%, ' + y_value + ') scale(' + scale_factor + ')')
+        else if (frame_index % 4 == 3)
+            setVendorPrefixForTransform(frame, 'translate(' + 330 + '%, ' + y_value + ') scale(' + scale_factor + ')')
+    }
+    else if (getWindowWidth().x > 600) {
+        row = Math.floor(frame_index / 3);
+        var y_value = y_val ? (y_val + 'px') : ((row * 105) + '%');
 
-    // ANIMATE SETUP
+        if (frame_index % 3 == 0)
+            setVendorPrefixForTransform(frame, 'translate(' + 0 + '%, ' + y_value + ') scale(' + scale_factor + ')')
+        else if (frame_index % 3 == 1)
+            setVendorPrefixForTransform(frame, 'translate(' + 110 + '%, ' + y_value + ') scale(' + scale_factor + ')')
+        else if (frame_index % 3 == 2)
+            setVendorPrefixForTransform(frame, 'translate(' + 220 + '%, ' + y_value + ') scale(' + scale_factor + ')')
+    }
+    else {
+        row = Math.floor(frame_index / 2);
+        var y_value = y_val ? (y_val + 'px') : ((row * 105) + '%');
 
-    var first_frame = node.getBoundingClientRect();
+        if (frame_index % 2 == 0)
+            setVendorPrefixForTransform(frame, 'translate(' + 0 + '%, ' + y_value + ') scale(' + scale_factor + ')')
+        else if (frame_index % 2 == 1)
+            setVendorPrefixForTransform(frame, 'translate(' + 105 + '%, ' + y_value + ') scale(' + scale_factor + ')')
+    }
+}
 
-    // node.childNodes[1].style.backgroundSize = 'cover';
-    // node.childNodes[0].style.paddingTop = ratio * 100 + '%';
-    // node.style.width = zoomed_size;
 
-    var last_frame = node.getBoundingClientRect();
 
-    // var translate_frame_factor = first_frame.top - last_frame.top;
-    var scale_factor_frame = first_frame.height / last_frame.height;
 
-    // Invert TRANSFORMS
-    // setVendorPrefixForTransform(node,'scale(' + 3 + ')');
+
+
+
+
+
+function dock(direction) {
+    var translate_x_number;
+    var y_value;
+    var zoomed_frame_index = current_category.indexOf(zoomed_frame);
+    var scale_factor;
+
+    if (getWindowWidth().x > 900) {
+        translate_x_number = 390;
+        scale_factor = 0.3;
+    }
+    else if (getWindowWidth().x > 600) {
+        translate_x_number = 287;
+        scale_factor = 0.25;
+    }
+    else {
+        translate_x_number = 184;
+        scale_factor = 0.2;
+    }
+
 
     // ANIMATE RUN
     requestAnimationFrame(function() {
-        node.classList.add('animate-transforms');
-        // node.style.transform = '';
+        for (var i = 0; i < current_category.length; i++) {
+            var frame = current_category[i];
+            var y_value;
+
+            if (i == zoomed_frame_index) {
+                ; // do nothing to zoomed frame
+            }
+            else if (i > zoomed_frame_index) {
+                y_value = ((i - 1) * 110 * scale_factor);
+                setVendorPrefixForTransform(frame, 'translate(' + translate_x_number + '%,' + y_value + '%) scale(' + scale_factor + ','+ scale_factor + ')');
+            }
+            else {
+                y_value = ((i) * 110 * scale_factor);
+                setVendorPrefixForTransform(frame, 'translate(' + translate_x_number + '%,' + y_value + '%) scale(' + scale_factor + ','+ scale_factor + ')');
+            }
+        }
+    });
+}
+
+
+
+
+
+
+
+
+function zoom(node) {
+
+    var ratio = node.dataset.ratio;
+    var scale_factor_zoomed_frame = 3.82;
+
+    if (getWindowWidth().x > 900) {
+        node.childNodes[1].style.background = 'url(' + node.dataset.large_pic + ')';
+    }
+    else {
+        node.childNodes[1].style.background = 'url(' + node.dataset.small_pic + ')';
+    }
+
+    node.childNodes[0].style.paddingTop = ratio * 100 + '%';
+    node.childNodes[1].style.backgroundSize = 'cover';
+    // ANIMATE RUN
+    requestAnimationFrame(function() {
+        setVendorPrefixForTransform(node,'scale(' + scale_factor_zoomed_frame + ')');
     });
 
-    setTimeout(function() {
+    dock();
 
-        info_section = createInfoSection(node);
-        gallery.insertBefore(info_section, node);
-
-        // ANIMATE SETUP
-
-        var first_info = info_section.getBoundingClientRect();
-
-        info_section.style.maxHeight = '30em';
-        var last_info = info_section.getBoundingClientRect();
-
-        var scale_factor_info = first_info.height / last_info.height;
-
-        // Invert TRANSFORMS
-        setVendorPrefixForTransform(info_section, 'scale(1,' + 0 + ')');
-
-        // ANIMATE RUN
-        requestAnimationFrame(function() {
-            info_section.classList.add('animate-transforms');
-            info_section.style.transform = '';
-        });
-
-    }, 500);
-
-
-    setTimeout(function() {
-        setTimeout(function() {
-
-            // scroll to top of info section
-            function step(timestamp) {
-              var scroll_amount = (info_section.offsetTop) - gallery.scrollTop;
-              gallery.scrollTop += (scroll_amount / 15);
-              if (info_section) {
-                  if (gallery.scrollTop < (info_section.offsetTop - 20) || gallery.scrollTop > (info_section.offsetTop)) {
-                    requestAnimationFrame(step);
-                  }
-              }
-            }
-            requestAnimationFrame(step);
-
-        }, 10);
-    }, 500);
+    //     info_section = createInfoSection(node);
+    //     gallery.insertBefore(info_section, node);
 
     // set data attr for differentiating between zoomed and unzoomed in css...
     node.dataset.zoom = 'true';
@@ -487,30 +484,15 @@ function unzoom(node) {
     if (info_section) {
         gallery.removeChild(info_section);
     }
-
     info_section = null;
-    node.childNodes[0].style.paddingTop = '';
-    // set width to empty string so it will be whatever is set in css...
-    node.style.width = '';
+
+    node.childNodes[0].style.paddingTop = '100%';
 
     node.dataset.zoom = 'false';
 }
 
 
 function click_artpiece (event) {
-
-    // get index of picture in currently visible images array
-    var index = current_category.indexOf(event.target.parentNode);
-
-    var minimize_number = function () {
-        if (getWindowWidth().x > 900)
-            return 4;
-        else if (getWindowWidth().x > 600)
-            return 3;
-        else
-            return 2;
-    }
-
     // zoom
     if (event.target.parentNode.dataset.zoom == 'false') {
 
@@ -519,71 +501,40 @@ function click_artpiece (event) {
 
         zoomed_frame = event.target.parentNode;
 
-        hidden_frames = [];
-
-        if (index % minimize_number() > 0) {
-            for (var i = (index % minimize_number()); i > 0; i--) {
-                var frame = current_category[index - i];
-
-                if (frame.nodeType == 1) {
-                    frame.style.width = '0';
-                    frame.style.margin = '0';
-                    hidden_frames.push(frame);
-                }
-            }
-        }
-
-        setTimeout(function() {
-            hidden_frames.forEach(function(frame) {
-                frame.style.width = '';
-                frame.style.margin = '';
-                gallery.insertBefore(frame, zoomed_frame.nextSibling);
-            });
-        }, 600);
-
-        zoom(event.target.parentNode);
+        zoom(zoomed_frame);
     }
     // reset positioning
     else if (event.target.parentNode.dataset.zoom == 'true') {
 
+        for (var i = 0; i < current_category.length; i++) {
+            var frame = current_category[i];
+            organizeFrames(frame, i, 1);
+        }
+
         unzoom(event.target.parentNode);
-
-        hidden_frames.forEach(function (frame) {
-            frame.style.width = '0';
-            frame.style.margin = '0';
-
-            gallery.insertBefore(frame, event.target.parentNode);
-
-            setTimeout(function() {
-                frame.style.width = '';
-                frame.style.margin = '';
-            }, 10);
-        });
     }
 }
 
 function mouseover_artpiece (event) {
     if (!window.mobilecheck()) {
-        for (var i = 0; i < gallery.childNodes.length; i++) {
-            if (    gallery.childNodes[i].nodeType == 1
-                &&  gallery.childNodes[i] != event.target.parentNode
-                &&  gallery.childNodes[i].className != 'info') {
+        for (var i = 0; i < current_category.length; i++) {
 
-                gallery.childNodes[i].childNodes[1].style.opacity = '0.35';
+            if (current_category[i] == zoomed_frame) {
+                ;
             }
-            else {
-               gallery.childNodes[i].childNodes[1].style.opacity = '';
+            else if (current_category[i] == event.target.parentNode) {
+                current_category[i].childNodes[1].style.opacity = '';
             }
         }
+    }
+
+    if (zoomed_frame) {
+        // dock();
     }
 }
 
 function mouseout_artpiece (event) {
-    for (var i = 0; i < gallery.childNodes.length; i++) {
-        if (gallery.childNodes[i].nodeType == 1) {
-            gallery.childNodes[i].childNodes[1].style.opacity = '';
-        }
-    }
+
 }
 
 function toggleCategory (event) {
@@ -619,10 +570,11 @@ function showCategory (event) {
     }
     event.target.dataset.selected = 'true';
 
-
+    // reset hight and padding
     gallery.style.height = '';
     gallery.style.paddingTop = '';
 
+    // hide all other major sections
     for (var i = 0; i < gallery.parentNode.childNodes.length; i++) {
         child = gallery.parentNode.childNodes[i];
         if (child.nodeType == 1) {
@@ -634,34 +586,40 @@ function showCategory (event) {
         }
     }
 
+    // remove info_section
     if (info_section) {
         gallery.removeChild(info_section);
         info_section = null;
     }
-    if (zoomed_frame) {
-        unzoom(zoomed_frame);
-    }
 
     current_category = [];
 
-    zoomed_frame = null;
-
     var tag = event.target.dataset.tag;
 
-    for (var i = 0; i < gallery.childNodes.length; i++) {
+    for (var i = 0; i < art_pieces.length; i++) {
+        var child = art_pieces[i].parentNode;
 
-        var child = gallery.childNodes[i];
-
+        if (child == zoomed_frame) {
+            organizeFrames(child, i, 0);
+        }
         if (child.dataset.tags.match(new RegExp(tag)) == null) {
-            child.style.width = 0;
-            child.style.margin = 0;
+            organizeFrames(child, i, 0);
         }
         else {
-            child.style.width = '';
-            child.style.margin = '';
             current_category.push(child);
         }
     }
+
+    for (var i = 0; i < current_category.length; i++) {
+        var frame = current_category[i];
+
+        organizeFrames(frame, i, 1);
+    }
+
+    if (zoomed_frame)
+        unzoom(zoomed_frame);
+
+    zoomed_frame = null;
 }
 
 function showAboutSection (event) {
