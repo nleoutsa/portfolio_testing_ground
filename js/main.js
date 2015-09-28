@@ -37,9 +37,6 @@ var git_repos = [];
 
 
 
-
-
-
 //////////////////////////////////////////
 //         FUNCTION CALLS
 //////////////////////////////////////////
@@ -92,7 +89,7 @@ for (var i = 0; i < art_pieces.length; i++) {
     art_pieces[i].addEventListener('click', function(event) {click_artpiece(event);}, false);
     var frame = art_pieces[i].parentNode;
 
-    setVendorPrefixForTransformOrigin(frame, '0 0');
+    // setVendorPrefixForTransformOrigin(frame, '50% 50%');
     organizeFrames(frame, i, 1);
 
     if (getWindowWidth().x > 600) {
@@ -255,6 +252,7 @@ function createFrame (piece) {
     art_piece.style.background = thumbnail;
     art_piece.style.backgroundSize = 'cover';
 
+    setVendorPrefixForTransformOrigin(frame, '0 0');
     frame.appendChild(aspect_force);
     frame.appendChild(art_piece);
 
@@ -358,42 +356,30 @@ function createInfoSection(node) {
 }
 
 
-function organizeFrames (frame, frame_index, scale_factor, y_val) {
+function organizeFrames (frame, frame_index, scale_factor, magnify) {
     var row;
+    var y_value;
+    var x_value;
 
     if (getWindowWidth().x > 900) {
         row = Math.floor(frame_index / 4);
-        var y_value = y_val ? (y_val + 'px') : ((row * 110) + '%');
-
-        if (frame_index % 4 == 0)
-            setVendorPrefixForTransform(frame, 'translate(' + 0 + '%, ' + y_value + ') scale(' + scale_factor + ')')
-        else if (frame_index % 4 == 1)
-            setVendorPrefixForTransform(frame, 'translate(' + 110 + '%, ' + y_value + ') scale(' + scale_factor + ')')
-        else if (frame_index % 4 == 2)
-            setVendorPrefixForTransform(frame, 'translate(' + 220 + '%, ' + y_value + ') scale(' + scale_factor + ')')
-        else if (frame_index % 4 == 3)
-            setVendorPrefixForTransform(frame, 'translate(' + 330 + '%, ' + y_value + ') scale(' + scale_factor + ')')
+        y_value = magnify ? ((row * 110) - 5 + '%') : ((row * 110) + '%');
+        x_value = magnify ? (((frame_index % 4) * 110) - 5 + '%') : ((frame_index % 4) * 110) + '%';
     }
     else if (getWindowWidth().x > 600) {
         row = Math.floor(frame_index / 3);
-        var y_value = y_val ? (y_val + 'px') : ((row * 105) + '%');
-
-        if (frame_index % 3 == 0)
-            setVendorPrefixForTransform(frame, 'translate(' + 0 + '%, ' + y_value + ') scale(' + scale_factor + ')')
-        else if (frame_index % 3 == 1)
-            setVendorPrefixForTransform(frame, 'translate(' + 110 + '%, ' + y_value + ') scale(' + scale_factor + ')')
-        else if (frame_index % 3 == 2)
-            setVendorPrefixForTransform(frame, 'translate(' + 220 + '%, ' + y_value + ') scale(' + scale_factor + ')')
+        y_value = magnify ? ((row * 105) - 2.5 + '%') : ((row * 105) + '%');
+        x_value = magnify ? (((frame_index % 3) * 110) - 5 + '%') : ((frame_index % 3) * 110) + '%';
     }
     else {
         row = Math.floor(frame_index / 2);
-        var y_value = y_val ? (y_val + 'px') : ((row * 105) + '%');
-
-        if (frame_index % 2 == 0)
-            setVendorPrefixForTransform(frame, 'translate(' + 0 + '%, ' + y_value + ') scale(' + scale_factor + ')')
-        else if (frame_index % 2 == 1)
-            setVendorPrefixForTransform(frame, 'translate(' + 105 + '%, ' + y_value + ') scale(' + scale_factor + ')')
+        y_value = magnify ? (((frame_index % 4) * 105) - 2.5 + '%') : ((row * 105) + '%');
+        x_value = magnify ? (((frame_index % 2) * 105) - 2.5 + '%') : ((frame_index % 2) * 105) + '%';
     }
+
+    // requestAnimationFrame(function() {
+        setVendorPrefixForTransform(frame, 'translate(' + x_value + ', ' + y_value + ') scale(' + scale_factor + ')')
+    // });
 }
 
 
@@ -404,44 +390,157 @@ function organizeFrames (frame, frame_index, scale_factor, y_val) {
 
 
 
-function dock(direction) {
+function dock () {
     var translate_x_number;
     var y_value;
     var zoomed_frame_index = current_category.indexOf(zoomed_frame);
     var scale_factor;
 
+    var pixels_alloted_per_frame = getWindowWidth().y / (current_category.length - 1);
+    var frame_height = art_pieces[0].parentNode != zoomed_frame ? art_pieces[0].parentNode.clientHeight : art_pieces[1].parentNode.clientHeight;
+    var scale_y = (pixels_alloted_per_frame / frame_height) * 0.8;
+    console.log(scale_y);
+
     if (getWindowWidth().x > 900) {
         translate_x_number = 390;
-        scale_factor = 0.3;
+        scale_factor = 0.4;
     }
     else if (getWindowWidth().x > 600) {
         translate_x_number = 287;
-        scale_factor = 0.25;
+        scale_factor = 0.3;
     }
     else {
         translate_x_number = 184;
         scale_factor = 0.2;
     }
 
-
-    // ANIMATE RUN
     requestAnimationFrame(function() {
         for (var i = 0; i < current_category.length; i++) {
+
             var frame = current_category[i];
-            var y_value;
+            var y_value = 110 * scale_y;
 
             if (i == zoomed_frame_index) {
                 ; // do nothing to zoomed frame
             }
-            else if (i > zoomed_frame_index) {
-                y_value = ((i - 1) * 110 * scale_factor);
-                setVendorPrefixForTransform(frame, 'translate(' + translate_x_number + '%,' + y_value + '%) scale(' + scale_factor + ','+ scale_factor + ')');
-            }
             else {
-                y_value = ((i) * 110 * scale_factor);
-                setVendorPrefixForTransform(frame, 'translate(' + translate_x_number + '%,' + y_value + '%) scale(' + scale_factor + ','+ scale_factor + ')');
+                setVendorPrefixForTransform(frame, 'translate(' + translate_x_number + '%,' + (y_value * (i)) + '%) scale(' + scale_factor + ','+ scale_y + ')');
             }
         }
+    });
+}
+
+function dockSingle (node) {
+    var translate_x_number;
+    var y_value;
+
+    var frame_index = current_category.indexOf(node);
+    var zoomed_frame_index = current_category.indexOf(zoomed_frame);
+    var scale_factor;
+
+    var pixels_alloted_per_frame = getWindowWidth().y / (current_category.length - 1);
+    var frame_height = art_pieces[0].parentNode != zoomed_frame ? art_pieces[0].parentNode.clientHeight : art_pieces[1].parentNode.clientHeight;
+    var scale_y = (pixels_alloted_per_frame / frame_height) * 0.8;
+
+    if (getWindowWidth().x > 900) {
+        translate_x_number = 390;
+        scale_factor = 0.4;
+    }
+    else if (getWindowWidth().x > 600) {
+        translate_x_number = 287;
+        scale_factor = 0.3;
+    }
+    else {
+        translate_x_number = 184;
+        scale_factor = 0.2;
+    }
+
+    var y_value = 110 * scale_y;
+
+    // ANIMATE RUN
+    requestAnimationFrame(function() {
+        setVendorPrefixForTransform(node, 'translate(' + translate_x_number + '%,' + (y_value * (frame_index)) + '%) scale(' + scale_factor + ',' + scale_y + ')');
+    });
+}
+
+
+function magnify(node) {
+    var translate_x_number;
+    var y_value;
+
+    var frame_index = current_category.indexOf(node);
+    var zoomed_frame_index = current_category.indexOf(zoomed_frame);
+    var scale_factor;
+
+    var pixels_alloted_per_frame = getWindowWidth().y / (current_category.length - 1);
+    var frame_height = art_pieces[0].parentNode != zoomed_frame ? art_pieces[0].parentNode.clientHeight : art_pieces[1].parentNode.clientHeight;
+    var scale_y = (pixels_alloted_per_frame / frame_height) * 0.8;
+
+    if (getWindowWidth().x > 900) {
+        translate_x_number = 390;
+        scale_factor = 0.5;
+    }
+    else if (getWindowWidth().x > 600) {
+        translate_x_number = 287;
+        scale_factor = 0.4;
+    }
+    else {
+        translate_x_number = 184;
+        scale_factor = 0.3;
+    }
+
+    var y_value = 110 * scale_y;
+
+    // ANIMATE RUN
+    requestAnimationFrame(function() {
+        node.style.zIndex = 9999;
+        setVendorPrefixForTransform(node, 'translate(' + translate_x_number * 0.92 + '%,' + ((y_value) * (frame_index - 0.5)) + '%) scale(' + scale_factor * 1.3 + ','+ scale_y * 2 + ')');
+        if (node.previousSibling && node.previousSibling != zoomed_frame) {
+            setVendorPrefixForTransform(node.previousSibling, 'translate(' + translate_x_number * 0.95 + '%,' + (y_value * (frame_index - 1)) + '%) scale(' + scale_factor * 1.1 + ','+ scale_y + ')');
+            node.previousSibling.style.zIndex = 0;
+        }
+        if (node.nextSibling && node.nextSibling != zoomed_frame) {
+            setVendorPrefixForTransform(node.nextSibling, 'translate(' + translate_x_number * 0.95 + '%,' + (y_value * (frame_index + 1)) + '%) scale(' + scale_factor * 1.1 + ','+ scale_y + ')');
+            node.nextSibling.style.zIndex = 0;
+        }
+
+    });
+}
+function unMagnify(node) {
+    var translate_x_number;
+    var y_value;
+
+    var frame_index = current_category.indexOf(node);
+    var zoomed_frame_index = current_category.indexOf(zoomed_frame);
+    var scale_factor;
+
+    var pixels_alloted_per_frame = getWindowWidth().y / (current_category.length - 1);
+    var frame_height = art_pieces[0].parentNode != zoomed_frame ? art_pieces[0].parentNode.clientHeight : art_pieces[1].parentNode.clientHeight;
+    var scale_y = (pixels_alloted_per_frame / frame_height) * 0.8;
+
+    if (getWindowWidth().x > 900) {
+        translate_x_number = 390;
+        scale_factor = 0.4;
+    }
+    else if (getWindowWidth().x > 600) {
+        translate_x_number = 287;
+        scale_factor = 0.3;
+    }
+    else {
+        translate_x_number = 184;
+        scale_factor = 0.2;
+    }
+
+    var y_value = 110 * scale_y;
+
+    // ANIMATE RUN
+    requestAnimationFrame(function() {
+        if (node != zoomed_frame)
+            setVendorPrefixForTransform(node, 'translate(' + translate_x_number + '%,' + (y_value * (frame_index)) + '%) scale(' + scale_factor + ','+ scale_y + ')');
+        if (node.previousSibling && node.previousSibling != zoomed_frame)
+            setVendorPrefixForTransform(node.previousSibling, 'translate(' + translate_x_number + '%,' + (y_value * (frame_index - 1)) + '%) scale(' + scale_factor + ','+ scale_y + ')');
+        if (node.nextSibling && node.nextSibling != zoomed_frame)
+            setVendorPrefixForTransform(node.nextSibling, 'translate(' + translate_x_number + '%,' + (y_value * (frame_index + 1)) + '%) scale(' + scale_factor + ','+ scale_y + ')');
     });
 }
 
@@ -453,9 +552,8 @@ function dock(direction) {
 
 
 function zoom(node) {
-
+    zoomed_frame = node;
     var ratio = node.dataset.ratio;
-    var scale_factor_zoomed_frame = 3.82;
 
     if (getWindowWidth().x > 900) {
         node.childNodes[1].style.background = 'url(' + node.dataset.large_pic + ')';
@@ -464,14 +562,29 @@ function zoom(node) {
         node.childNodes[1].style.background = 'url(' + node.dataset.small_pic + ')';
     }
 
+    // get start state
+    var node_start = node.getBoundingClientRect();
+
     node.childNodes[0].style.paddingTop = ratio * 100 + '%';
     node.childNodes[1].style.backgroundSize = 'cover';
+    node.style.width = '80%';
+
+    // get end state
+    var node_end = node.getBoundingClientRect();
+
+    node.style.width = '';
+
+    // determine scale factor from start and end states
+    var scale_factor_zoomed_frame = node_end.width / node_start.width;
+
+    // setVendorPrefixForTransformOrigin(node, '0 0');
+
     // ANIMATE RUN
     requestAnimationFrame(function() {
         setVendorPrefixForTransform(node,'scale(' + scale_factor_zoomed_frame + ')');
     });
 
-    dock();
+
 
     //     info_section = createInfoSection(node);
     //     gallery.insertBefore(info_section, node);
@@ -481,6 +594,8 @@ function zoom(node) {
 }
 
 function unzoom(node) {
+    zoomed_frame = null;
+
     if (info_section) {
         gallery.removeChild(info_section);
     }
@@ -496,12 +611,14 @@ function click_artpiece (event) {
     // zoom
     if (event.target.parentNode.dataset.zoom == 'false') {
 
-        if (zoomed_frame)
+        if (zoomed_frame) {
+            dockSingle(zoomed_frame);
             unzoom(zoomed_frame);
+        }
+        else
+            dock();
 
-        zoomed_frame = event.target.parentNode;
-
-        zoom(zoomed_frame);
+        zoom(event.target.parentNode);
     }
     // reset positioning
     else if (event.target.parentNode.dataset.zoom == 'true') {
@@ -524,17 +641,29 @@ function mouseover_artpiece (event) {
             }
             else if (current_category[i] == event.target.parentNode) {
                 current_category[i].childNodes[1].style.opacity = '';
+
+                if (zoomed_frame == null)
+                    organizeFrames(event.target.parentNode, i, 1.1, true);
             }
         }
     }
 
-    if (zoomed_frame) {
+    if (zoomed_frame != null && event.target.parentNode != zoomed_frame) {
         // dock();
+        magnify(event.target.parentNode);
     }
 }
 
 function mouseout_artpiece (event) {
 
+    if (zoomed_frame == null) {
+        var target_index = current_category.indexOf(event.target.parentNode);
+        organizeFrames(event.target.parentNode, target_index, 1);
+    }
+    else {
+
+        unMagnify(event.target.parentNode);
+    }
 }
 
 function toggleCategory (event) {
@@ -599,10 +728,10 @@ function showCategory (event) {
     for (var i = 0; i < art_pieces.length; i++) {
         var child = art_pieces[i].parentNode;
 
-        if (child == zoomed_frame) {
-            organizeFrames(child, i, 0);
+        if (child.dataset.tags.match(new RegExp(tag)) == null && child == zoomed_frame) {
+            organizeFrames(child, i, 0.001);
         }
-        if (child.dataset.tags.match(new RegExp(tag)) == null) {
+        else if (child.dataset.tags.match(new RegExp(tag)) == null) {
             organizeFrames(child, i, 0);
         }
         else {
@@ -612,7 +741,6 @@ function showCategory (event) {
 
     for (var i = 0; i < current_category.length; i++) {
         var frame = current_category[i];
-
         organizeFrames(frame, i, 1);
     }
 
